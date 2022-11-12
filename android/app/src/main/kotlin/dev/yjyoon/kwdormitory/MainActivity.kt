@@ -1,4 +1,4 @@
-package com.example.kw_dormitory
+package dev.yjyoon.kwdormitory
 
 import io.flutter.embedding.android.FlutterActivity
 
