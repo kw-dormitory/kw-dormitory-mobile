@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
+import 'package:kw_dormitory/screen/home/components/bottom_navigator.dart';
 import 'package:kw_dormitory/screen/home/components/date_counter.dart';
 import 'package:kw_dormitory/screen/home/components/notice_board.dart';
 import 'package:kw_dormitory/screen/home/components/penalty_counter.dart';
@@ -39,12 +40,16 @@ class _HomeScreenState extends State<HomeScreen> {
               top: size.height / 4.7,
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    PenaltyCounter(score: 15),
-                    SizedBox(height: 16),
-                    NoticeBoard()
-                  ],
+                child: SizedBox(
+                  height: size.height / 1.5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      PenaltyCounter(score: 15),
+                      NoticeBoard(),
+                      BottomNavigator()
+                    ],
+                  ),
                 ),
               ),
             ),
