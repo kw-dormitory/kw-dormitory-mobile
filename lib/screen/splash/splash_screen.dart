@@ -17,8 +17,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> navigateToHome() async {
     await Future.delayed(const Duration(milliseconds: 2000));
-    Navigator.push(
-        context, MaterialPageRoute(builder: ((context) => HomeScreen())));
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: ((context) => HomeScreen())),
+        (Route<dynamic> route) => false);
   }
 
   @override
@@ -32,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
         height: size.height,
         child: Stack(alignment: Alignment.center, children: [
           Positioned(
-            top: 48,
+            top: 64,
             left: 24,
             child: Text(
               "광운대학교\n기숙사\n도우미",
