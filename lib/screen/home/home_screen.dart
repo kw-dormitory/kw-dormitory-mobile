@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             CustomPaint(painter: DrawCircle(size)),
             Positioned(
               right: size.width / 17,
-              top: 5,
+              top: 36,
               child: Hero(
                 tag: 'studentHero',
                 child: Image.asset(
@@ -38,11 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Positioned(
-              top: size.height / 4.7,
+              top: size.height / 4.2,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: SizedBox(
-                  height: size.height / 1.48,
+                  height: size.height - (size.height / 4.2 + 64),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Positioned(
                 left: size.width / 10,
-                top: size.width / 8,
+                top: size.width / 6,
                 child: DateCounter())
           ]),
         ),
