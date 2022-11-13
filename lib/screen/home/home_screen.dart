@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
 import 'package:kw_dormitory/screen/home/components/date_counter.dart';
+import 'package:kw_dormitory/screen/home/components/notice_board.dart';
 import 'package:kw_dormitory/screen/home/components/penalty_counter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,7 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
-                  children: [PenaltyCounter(score: 15)],
+                  children: [
+                    PenaltyCounter(score: 15),
+                    SizedBox(height: 16),
+                    NoticeBoard()
+                  ],
                 ),
               ),
             ),
