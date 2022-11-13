@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
+import 'package:kw_dormitory/screen/home/components/home_noti_switch.dart';
 
 class NoticeBoard extends StatefulWidget {
   const NoticeBoard({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class _NoticeBoardState extends State<NoticeBoard> {
       width: size.width - 32,
       child: Column(
         children: [
+          //HomeNotiSwitch(),
           GestureDetector(
             onTap: () {},
             child: Container(
