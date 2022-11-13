@@ -45,3 +45,12 @@ flutter:
           weight: 700
         - asset: asset/fonts/NanumSquare-ExtraBold.otf
           weight: 800
+
+    - family: GmarketSans
+      fonts:
+        - asset: asset/fonts/GmarketSans-Light.otf
+          weight: 300
+        - asset: asset/fonts/GmarketSans-Medium.otf
+          weight: 500
+        - asset: asset/fonts/GmarketSans-Bold.otf
+          weight: 700
