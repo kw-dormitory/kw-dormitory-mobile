@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
-                  children: [PenaltyCounter()],
+                  children: [PenaltyCounter(score: 15)],
                 ),
               ),
             ),
