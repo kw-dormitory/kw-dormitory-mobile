@@ -38,7 +38,7 @@ class PenaltyCounter extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    Icon(Icons.arrow_forward_ios_sharp, color: kGreyColor)
+                    Icon(Icons.chevron_right, color: kGreyColor)
                   ],
                 ),
                 LinearPercentIndicator(
