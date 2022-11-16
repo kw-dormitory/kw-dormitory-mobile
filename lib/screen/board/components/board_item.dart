@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
 
+import '../post_view.screen.dart';
+
 class BoardItem extends StatelessWidget {
   BoardItem({Key? key, required this.title, required this.date})
       : super(key: key);
@@ -16,27 +18,38 @@ class BoardItem extends StatelessWidget {
         width: size.width,
         child: Column(
           children: [
-            Container(
-              width: size.width,
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("익명", style: TextStyle(fontSize: 12)),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => PostViewScreen())));
+                },
+                child: Container(
+                  width: size.width,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title),
-                        Text(
-                          date,
-                          style: TextStyle(fontSize: 10, color: kGreyColor),
+                        Text("익명", style: TextStyle(fontSize: 12)),
+                        SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(title),
+                            Text(
+                              date,
+                              style: TextStyle(fontSize: 10, color: kGreyColor),
+                            )
+                          ],
                         )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
               ),
             ),
