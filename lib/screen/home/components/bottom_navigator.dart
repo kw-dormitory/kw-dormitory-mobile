@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/screen/board/board_screen.dart';
+import 'package:kw_dormitory/screen/map/map_screen.dart';
 
 class BottomNavigator extends StatelessWidget {
   const BottomNavigator({Key? key}) : super(key: key);
@@ -60,7 +61,10 @@ class BottomNavigator extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => MapScreen())));
+                },
                 child: Padding(
                     padding: EdgeInsets.all(8),
                     child: Column(
