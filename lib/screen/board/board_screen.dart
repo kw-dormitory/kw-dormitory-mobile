@@ -3,6 +3,8 @@ import 'package:kw_dormitory/constants.dart';
 import 'package:kw_dormitory/model/post.dart';
 import 'package:kw_dormitory/screen/board/components/board_item.dart';
 
+import 'post_write_screen.dart';
+
 class BoardScreen extends StatefulWidget {
   const BoardScreen({Key? key}) : super(key: key);
 
@@ -68,7 +70,6 @@ class _BoardScreenState extends State<BoardScreen> {
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.search),
                         fillColor: kGreyColor,
-                        counterText: "",
                         focusedBorder: OutlineInputBorder(
                             borderSide:
                                 BorderSide(color: kBackgroundColor, width: 1),
@@ -98,7 +99,10 @@ class _BoardScreenState extends State<BoardScreen> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: ((context) => PostWriteScreen())));
+            },
             child: Icon(
               Icons.edit,
               color: Colors.white,
