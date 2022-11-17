@@ -54,6 +54,8 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
                               fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                         TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                           decoration: InputDecoration(
                             hintText: "제목을 입력하세요",
                             focusedBorder: UnderlineInputBorder(
