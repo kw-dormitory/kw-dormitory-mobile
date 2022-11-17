@@ -30,6 +30,10 @@ class _NoticeScreenState extends State<NoticeScreen> {
     Post(title: "행복기숙사 벌점 적용 강화 안내", date: "2022-11-15"),
   ];
 
+  bool enableAllNoti = true;
+  bool enableRecruitNoti = true;
+  bool enable24hNoti = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +54,81 @@ class _NoticeScreenState extends State<NoticeScreen> {
               )),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => StatefulBuilder(
+                            builder: (context, setState) => AlertDialog(
+                                title: Center(
+                                  child: Text('알림',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                      textAlign: TextAlign.center),
+                                ),
+                                content: IntrinsicHeight(
+                                  child: Column(
+                                    children: [
+                                      Divider(),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            12, 0, 0, 12),
+                                        child: Column(children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("공지사항 전체 알림"),
+                                              Switch(
+                                                  value: enableAllNoti,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      enableAllNoti = value;
+                                                    });
+                                                  })
+                                            ],
+                                          ),
+                                          SizedBox(height: 4),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("기숙사 상시모집 알림"),
+                                              Switch(
+                                                  value: enableRecruitNoti,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      enableRecruitNoti = value;
+                                                    });
+                                                  })
+                                            ],
+                                          ),
+                                          SizedBox(height: 4),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("24시간 알림 설정"),
+                                              Switch(
+                                                  value: enable24hNoti,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      enable24hNoti = value;
+                                                    });
+                                                  })
+                                            ],
+                                          )
+                                        ]),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(15, 15, 15, 5),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15))),
+                          ));
+                },
                 icon: Icon(
                   Icons.notifications_outlined,
                   color: Colors.white,
