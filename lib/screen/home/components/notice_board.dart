@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
 import 'package:kw_dormitory/screen/home/components/home_noti_switch.dart';
+import 'package:kw_dormitory/screen/notice/notice_screen.dart';
 
 class NoticeBoard extends StatefulWidget {
   const NoticeBoard({Key? key}) : super(key: key);
@@ -20,7 +21,10 @@ class _NoticeBoardState extends State<NoticeBoard> {
         children: [
           //HomeNotiSwitch(),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: ((context) => NoticeScreen())));
+            },
             child: Container(
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
