@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kw_dormitory/screen/board/board_screen.dart';
 import 'package:kw_dormitory/screen/map/map_screen.dart';
 import 'package:kw_dormitory/screen/settings/settings_screen..dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BottomNavigator extends StatelessWidget {
   const BottomNavigator({Key? key}) : super(key: key);
@@ -62,9 +63,9 @@ class BottomNavigator extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => MapScreen())));
+                onTap: () async {
+                  launchUrl(
+                      Uri.parse("https://www.kw.ac.kr/ko/tour/tour01.jsp"));
                 },
                 child: Padding(
                     padding: EdgeInsets.all(8),
@@ -98,7 +99,7 @@ class BottomNavigator extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
-                onTap: () {},
+                onTap: () async {},
                 child: Padding(
                     padding: EdgeInsets.all(8),
                     child: Column(

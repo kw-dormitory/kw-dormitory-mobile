@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
+import 'package:kw_dormitory/screen/penalty/penalty_screen.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class PenaltyCounter extends StatelessWidget {
@@ -21,7 +22,10 @@ class PenaltyCounter extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(15))),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => PenaltyScreen())));
+          },
           borderRadius: BorderRadius.all(Radius.circular(15)),
           child: Padding(
             padding: const EdgeInsets.all(16),
