@@ -58,7 +58,7 @@ class _BoardScreenState extends State<BoardScreen> {
             Container(
                 color: Colors.white,
                 child: Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(12),
                   child: Container(
                     decoration: BoxDecoration(
                         color: kBackgroundColor,
@@ -87,15 +87,14 @@ class _BoardScreenState extends State<BoardScreen> {
                   ),
                 )),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: List.generate(
-                      posts.length,
-                      (index) => BoardItem(
-                          title: posts[index].title, date: posts[index].date)),
+                child: SingleChildScrollView(
+              child: Column(
+                children: List.generate(
+                  posts.length,
+                  (index) => BoardItem(post: posts[index]),
                 ),
               ),
-            )
+            ))
           ],
         ),
         floatingActionButton: FloatingActionButton(

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
+import 'package:kw_dormitory/model/post.dart';
 
 import '../post_view.screen.dart';
 
 class BoardItem extends StatelessWidget {
-  BoardItem({Key? key, required this.title, required this.date})
-      : super(key: key);
+  BoardItem({Key? key, required this.post}) : super(key: key);
 
-  String title;
-  String date;
+  Post post;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +39,9 @@ class BoardItem extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(title),
+                            Text(post.title),
                             Text(
-                              date,
+                              post.date,
                               style: TextStyle(fontSize: 10, color: kGreyColor),
                             )
                           ],
