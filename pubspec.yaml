@@ -17,6 +17,7 @@ dependencies:
 
   percent_indicator: ^4.0.1
   kakaomap_webview: ^0.6.2
+  url_launcher: ^6.1.6
   
   kakao_flutter_sdk: ^1.2.2
 
