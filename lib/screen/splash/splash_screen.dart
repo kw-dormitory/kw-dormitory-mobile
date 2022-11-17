@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
               left: 0,
               child: Image.asset(
                 'asset/images/building.png',
-                height: size.height / 2.5,
+                height: size.height / 2.7,
               )),
           Positioned(
               bottom: -30,
@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 tag: 'studentHero',
                 child: Image.asset(
                   'asset/images/student.png',
-                  width: size.width * 0.9,
+                  width: size.width * 0.95,
                 ),
               )),
         ]),
