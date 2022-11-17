@@ -14,6 +14,9 @@ class PenaltyScreen extends StatefulWidget {
 class _PenaltyScreenState extends State<PenaltyScreen> {
   int score = 15;
   bool enablePenaltyNoti = true;
+  int newScore = 1;
+  String newDetail = "";
+
   List<Penalty> penalties = [
     Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
     Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
@@ -24,6 +27,94 @@ class _PenaltyScreenState extends State<PenaltyScreen> {
     Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
     Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
   ];
+
+  Future _commitPenalty(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+
+    if (pickedDate == null) return;
+
+    showDialog(
+        context: context,
+        builder: (context) => StatefulBuilder(
+              builder: (context, setState) => AlertDialog(
+                  title: Center(
+                    child: Text('사유 작성',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                        textAlign: TextAlign.center),
+                  ),
+                  content: IntrinsicHeight(
+                      child: Column(children: [
+                    Divider(height: 2),
+                    SizedBox(
+                      height: 150,
+                      child: TextField(
+                        onChanged: (value) {
+                          newDetail = value;
+                        },
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                          hintText: "벌점 사유를 입력하세요",
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                        ),
+                        maxLines: null,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              if (newScore > 1) {
+                                setState(() {
+                                  newScore -= 1;
+                                });
+                              }
+                            },
+                            icon: Icon(Icons.remove)),
+                        Text("$newScore"),
+                        IconButton(
+                            onPressed: () {
+                              if (newScore < 20) {
+                                setState(() {
+                                  newScore += 1;
+                                });
+                              }
+                            },
+                            icon: Icon(Icons.add))
+                      ],
+                    )
+                  ])),
+                  actions: [
+                    ElevatedButton(
+                        onPressed: () async {
+                          //TODO: post new penalty
+
+                          newScore = 1;
+                          newDetail = "";
+                          Navigator.pop(context);
+                        },
+                        child: Text("완료",
+                            style: TextStyle(
+                              color: Colors.white,
+                            )))
+                  ],
+                  actionsAlignment: MainAxisAlignment.center,
+                  contentPadding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15))),
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -119,7 +210,9 @@ class _PenaltyScreenState extends State<PenaltyScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () async {
+            _commitPenalty(context);
+          },
           child: Icon(
             Icons.add,
             color: Colors.white,
