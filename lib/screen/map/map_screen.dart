@@ -16,8 +16,7 @@ class _MapScreenState extends State<MapScreen> {
     Building(name: "참빛관", lat: 37.619207, lng: 127.061013)
   ];
   Building selected = Building(name: "새빛관", lat: 37.619774, lng: 127.060926);
-  double lat = 37.619774;
-  double lng = 127.060926;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,67 +39,66 @@ class _MapScreenState extends State<MapScreen> {
             )),
       ),
       body: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 48,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: kBackgroundColor,
-                            borderRadius: BorderRadius.circular(12)),
-                        width: size.width - 32,
-                        child: DropdownButton(
-                          underline: Container(),
-                          icon: Container(),
-                          value: selected,
-                          items: buildings
-                              .map((e) => DropdownMenuItem<Building>(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12),
-                                      child: Text("${e.name}"),
-                                    ),
-                                    value: e,
-                                  ))
-                              .toList(),
-                          onChanged: (Building? value) {
-                            setState(() {
-                              selected = value!;
-                              lng = value.lng;
-                              lat = value.lat;
-                            });
-                          },
-                        ),
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 48,
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: kBackgroundColor,
+                          borderRadius: BorderRadius.circular(12)),
+                      width: size.width - 32,
+                      child: DropdownButton(
+                        underline: Container(),
+                        icon: Container(),
+                        value: selected,
+                        items: buildings
+                            .map((e) => DropdownMenuItem<Building>(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
+                                    child: Text("${e.name}"),
+                                  ),
+                                  value: e,
+                                ))
+                            .toList(),
+                        onChanged: (Building? value) {
+                          setState(() {
+                            selected = value!;
+                          });
+                        },
                       ),
                     ),
-                    Positioned(
-                        right: 16,
-                        top: 0,
-                        bottom: 0,
-                        child: Icon(
-                          Icons.expand_more,
-                          color: kGreyColor,
-                        ))
-                  ],
-                ),
+                  ),
+                  Positioned(
+                      right: 16,
+                      top: 0,
+                      bottom: 0,
+                      child: Icon(
+                        Icons.expand_more,
+                        color: kGreyColor,
+                      ))
+                ],
               ),
-              SizedBox(height: 16),
-              KakaoMapView(
-                width: size.width - 32,
-                height: size.height - 225,
-                kakaoMapKey: "f2f5a7dba70d2c2462ebea60a1877083",
-                lat: lat,
-                lng: lng,
-                showMapTypeControl: true,
-                showZoomControl: true,
-              )
-            ],
-          )),
+            ),
+            SizedBox(height: 16),
+            KakaoMapView(
+              width: size.width - 32,
+              height: size.height - 225,
+              kakaoMapKey: "f2f5a7dba70d2c2462ebea60a1877083",
+              lat: selected.lat,
+              lng: selected.lng,
+              showMapTypeControl: true,
+              showZoomControl: true,
+            )
+          ],
+        ),
+      ),
     );
   }
 }
