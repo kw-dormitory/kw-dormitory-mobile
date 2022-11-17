@@ -69,7 +69,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                 content: IntrinsicHeight(
                                   child: Column(
                                     children: [
-                                      Divider(),
+                                      Divider(height: 2),
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             12, 0, 0, 12),
@@ -88,7 +88,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                                   })
                                             ],
                                           ),
-                                          SizedBox(height: 4),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -103,7 +102,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                                   })
                                             ],
                                           ),
-                                          SizedBox(height: 4),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
