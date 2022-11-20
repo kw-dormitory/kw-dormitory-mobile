@@ -4,7 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void fcmSetting() async {
+Future<String> fcmSetting() async {
   // firebase core 기능 사용을 위한 필수 initializing
   await Firebase.initializeApp();
 
@@ -35,7 +35,7 @@ void fcmSetting() async {
 
   await flutterLocalNotificationsPlugin.initialize(
     InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/launcher_icon'),
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
     ),
   );
 
@@ -58,4 +58,7 @@ void fcmSetting() async {
           ));
     }
   });
+
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  return fcmToken!;
 }
