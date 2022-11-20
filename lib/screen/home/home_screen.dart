@@ -7,8 +7,9 @@ import 'package:kw_dormitory/screen/home/components/notice_board.dart';
 import 'package:kw_dormitory/screen/home/components/penalty_counter.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, required this.token}) : super(key: key);
 
+  final String token;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
