@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "71274534820",
+    "project_id": "kw-dormitory-notice",
+    "storage_bucket": "kw-dormitory-notice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71274534820:android:57f975e2f79b38fdead331",
+        "android_client_info": {
+          "package_name": "com.kw.kwdormitory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71274534820-k87maf1gej5hak30gpav28m0f0ddoaqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhNRWp8Xy0xT7vyb7l2c1HSzarlG445LQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71274534820-k87maf1gej5hak30gpav28m0f0ddoaqg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
