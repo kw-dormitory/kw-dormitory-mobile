@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kw_dormitory/core/fcm.dart';
 import 'package:kw_dormitory/screen/home/home_screen.dart';
+import 'package:kw_dormitory/screen/login/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,10 +19,19 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> navigateToHome() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    var fcmToken = await fcmSetting();
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('jwt-token');
+    final jwtToken = prefs.getString('jwt-token');
+
+    await Future.delayed(const Duration(milliseconds: 1500));
     Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: ((context) => HomeScreen())),
+        MaterialPageRoute(
+            builder: ((context) => jwtToken == null
+                ? LoginScreen(fcmToken: fcmToken)
+                : HomeScreen(token: jwtToken))),
         (Route<dynamic> route) => false);
   }
 

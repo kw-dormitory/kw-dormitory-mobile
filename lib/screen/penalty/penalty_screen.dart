@@ -5,28 +5,17 @@ import 'package:kw_dormitory/screen/penalty/components/penalty_item.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class PenaltyScreen extends StatefulWidget {
-  const PenaltyScreen({Key? key}) : super(key: key);
+  const PenaltyScreen({Key? key, required this.penalty}) : super(key: key);
 
+  final PenaltyResponse penalty;
   @override
   State<PenaltyScreen> createState() => _PenaltyScreenState();
 }
 
 class _PenaltyScreenState extends State<PenaltyScreen> {
-  int score = 15;
   bool enablePenaltyNoti = true;
   int newScore = 1;
   String newDetail = "";
-
-  List<Penalty> penalties = [
-    Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
-    Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
-    Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
-    Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
-    Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
-    Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
-    Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
-    Penalty(title: "통금시간 미준수", date: "2022-11-17", score: 2),
-  ];
 
   Future _commitPenalty(BuildContext context) async {
     final initialDate = DateTime.now();
@@ -156,11 +145,11 @@ class _PenaltyScreenState extends State<PenaltyScreen> {
                             radius: size.width / 4,
                             lineWidth: 24,
                             animation: true,
-                            percent: score / 20,
+                            percent: widget.penalty.totalPenalty / 20,
                             center: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("$score",
+                                Text("$widget.penalty.totalPenalty",
                                     style: TextStyle(
                                         fontSize: 28,
                                         fontWeight: FontWeight.w800)),
@@ -203,8 +192,10 @@ class _PenaltyScreenState extends State<PenaltyScreen> {
             child: SingleChildScrollView(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(penalties.length,
-                      (index) => PenaltyItem(penalty: penalties[index]))),
+                  children: List.generate(
+                      widget.penalty.penalties.length,
+                      (index) => PenaltyItem(
+                          penalty: widget.penalty.penalties[index]))),
             ),
           )
         ],

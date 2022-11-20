@@ -47,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      PenaltyCounter(score: 15),
+                      PenaltyCounter(
+                        token: widget.token,
+                      ),
                       NoticeBoard(),
                       BottomNavigator()
                     ],

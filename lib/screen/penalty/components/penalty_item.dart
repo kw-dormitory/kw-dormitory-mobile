@@ -30,11 +30,11 @@ class PenaltyItem extends StatelessWidget {
                         Text(penalty.date,
                             style: TextStyle(fontSize: 10, color: kGreyColor)),
                         SizedBox(height: 4),
-                        Text(penalty.title),
+                        Text(penalty.content),
                       ],
                     ),
                     Text(
-                      "+ ${penalty.score}",
+                      "+ ${penalty.penalty}",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )
