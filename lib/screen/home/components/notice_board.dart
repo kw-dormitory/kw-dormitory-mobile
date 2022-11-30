@@ -42,8 +42,11 @@ class _NoticeBoardState extends State<NoticeBoard> {
           //HomeNotiSwitch(),
           GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: ((context) => NoticeScreen())));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) =>
+                          NoticeScreen(token: widget.token))));
             },
             child: Container(
               padding: EdgeInsets.all(12),

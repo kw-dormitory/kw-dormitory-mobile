@@ -50,7 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       PenaltyCounter(
                         token: widget.token,
                       ),
-                      NoticeBoard(),
+                      NoticeBoard(
+                        token: widget.token,
+                      ),
                       BottomNavigator()
                     ],
                   ),

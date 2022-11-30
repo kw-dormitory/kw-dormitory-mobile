@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
 import 'package:kw_dormitory/model/notice.dart';
 import 'package:kw_dormitory/model/post.dart';
 import 'package:kw_dormitory/screen/notice/components/notice_item.dart';
+import 'package:kw_dormitory/util/dio.dart';
 
 class NoticeScreen extends StatefulWidget {
-  const NoticeScreen({Key? key, required this.notices}) : super(key: key);
-  final List<Notice> notices;
+  const NoticeScreen({Key? key, required this.token}) : super(key: key);
+
+  final String token;
 
   @override
   State<NoticeScreen> createState() => _NoticeScreenState();
@@ -16,6 +20,20 @@ class _NoticeScreenState extends State<NoticeScreen> {
   bool enableAllNoti = true;
   bool enableRecruitNoti = true;
   bool enable24hNoti = true;
+
+  late Future<List<Notice>> notices;
+
+  @override
+  void initState() {
+    super.initState();
+    notices = fetchNotices();
+  }
+
+  Future<List<Notice>> fetchNotices() async {
+    var dio = await getDio(widget.token);
+    final response = await dio.get("/penalty");
+    return NoticeResponse.fromJson(json.decode(response.data)).notices;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,49 +134,60 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 ))
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: kBackgroundColor,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: TextField(
-                      cursorColor: kAccentColor,
-                      keyboardType: TextInputType.text,
-                      onChanged: (string) {},
-                      decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.search),
-                        fillColor: kGreyColor,
-                        focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: kBackgroundColor, width: 1),
-                            borderRadius: BorderRadius.circular(12)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: kBackgroundColor, width: 1),
-                            borderRadius: BorderRadius.circular(12)),
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        hintText: '글 제목 검색',
+        body: FutureBuilder<List<Notice>>(
+            future: notices,
+            builder: ((context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  children: [
+                    Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: kBackgroundColor,
+                                borderRadius: BorderRadius.circular(12)),
+                            child: TextField(
+                              cursorColor: kAccentColor,
+                              keyboardType: TextInputType.text,
+                              onChanged: (string) {},
+                              decoration: InputDecoration(
+                                suffixIcon: Icon(Icons.search),
+                                fillColor: kGreyColor,
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: kBackgroundColor, width: 1),
+                                    borderRadius: BorderRadius.circular(12)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: kBackgroundColor, width: 1),
+                                    borderRadius: BorderRadius.circular(12)),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                hintText: '글 제목 검색',
+                              ),
+                              maxLines: 1,
+                            ),
+                          ),
+                        )),
+                    Expanded(
+                        child: SingleChildScrollView(
+                      child: Column(
+                        children: List.generate(
+                          snapshot.data!.length,
+                          (index) => NoticeItem(notice: snapshot.data![index]),
+                        ),
                       ),
-                      maxLines: 1,
-                    ),
-                  ),
-                )),
-            Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                children: List.generate(
-                  widget.notices.length,
-                  (index) => NoticeItem(notice: widget.notices[index]),
-                ),
-              ),
-            ))
-          ],
-        ));
+                    ))
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text("데이터를 불러올 수 없습니다"),
+                );
+              }
+              return Center(child: CircularProgressIndicator());
+            })));
   }
 }
