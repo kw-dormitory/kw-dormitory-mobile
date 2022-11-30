@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
+import 'package:kw_dormitory/model/notice.dart';
 import 'package:kw_dormitory/model/post.dart';
 import 'package:kw_dormitory/screen/notice/notice_view_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NoticeItem extends StatelessWidget {
-  NoticeItem({Key? key, required this.post}) : super(key: key);
+  const NoticeItem({Key? key, required this.notice}) : super(key: key);
 
-  Post post;
+  final Notice notice;
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +21,8 @@ class NoticeItem extends StatelessWidget {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => NoticeViewScreen())));
+                onTap: () async {
+                  launchUrl(Uri.parse("https://kw.happydorm.or.kr/"));
                 },
                 child: Container(
                   width: size.width,
@@ -33,10 +32,10 @@ class NoticeItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(post.date,
+                        Text(notice.createdAt,
                             style: TextStyle(fontSize: 10, color: kGreyColor)),
                         SizedBox(height: 8),
-                        Text(post.title),
+                        Text(notice.title),
                       ],
                     ),
                   ),

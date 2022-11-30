@@ -1,16 +1,36 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
+import 'package:kw_dormitory/model/notice.dart';
 import 'package:kw_dormitory/screen/home/components/home_noti_switch.dart';
 import 'package:kw_dormitory/screen/notice/notice_screen.dart';
+import 'package:kw_dormitory/util/dio.dart';
 
 class NoticeBoard extends StatefulWidget {
-  const NoticeBoard({Key? key}) : super(key: key);
+  const NoticeBoard({Key? key, required this.token}) : super(key: key);
+
+  final String token;
 
   @override
   State<NoticeBoard> createState() => _NoticeBoardState();
 }
 
 class _NoticeBoardState extends State<NoticeBoard> {
+  late Future<List<Notice>> notices;
+
+  @override
+  void initState() {
+    super.initState();
+    notices = fetchNotices();
+  }
+
+  Future<List<Notice>> fetchNotices() async {
+    var dio = await getDio(widget.token);
+    final response = await dio.get("/penalty");
+    return NoticeResponse.fromJson(json.decode(response.data)).notices;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -45,10 +65,26 @@ class _NoticeBoardState extends State<NoticeBoard> {
               ),
             ),
           ),
-          NoticeBoardItem(date: "2022-10-10", title: "제목", isLastItem: false),
-          NoticeBoardItem(date: "2022-10-10", title: "제목", isLastItem: false),
-          NoticeBoardItem(date: "2022-10-10", title: "제목", isLastItem: false),
-          NoticeBoardItem(date: "2022-10-10", title: "제목", isLastItem: true)
+          FutureBuilder<List<Notice>>(
+              future: notices,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                      children: List.generate(
+                          snapshot.data!.length,
+                          (index) => NoticeBoardItem(
+                              notice: snapshot.data![index],
+                              isLastItem: index == snapshot.data!.length - 1)));
+                } else if (snapshot.hasError) {
+                  print(snapshot.stackTrace);
+                  return Center(
+                    child: Text("데이터를 불러올 수 없습니다"),
+                  );
+                }
+                return Center(
+                  child: const CircularProgressIndicator(),
+                );
+              })
         ],
       ),
     );
@@ -56,15 +92,11 @@ class _NoticeBoardState extends State<NoticeBoard> {
 }
 
 class NoticeBoardItem extends StatelessWidget {
-  NoticeBoardItem(
-      {Key? key,
-      required this.date,
-      required this.title,
-      required this.isLastItem})
+  NoticeBoardItem({Key? key, required this.notice, required this.isLastItem})
       : super(key: key);
-  late String date;
-  late String title;
-  late bool isLastItem;
+
+  final Notice notice;
+  final bool isLastItem;
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +129,10 @@ class NoticeBoardItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(date,
+                        Text(notice.createdAt,
                             style: TextStyle(color: kGreyColor, fontSize: 12)),
                         SizedBox(height: 4),
-                        Text(title, overflow: TextOverflow.ellipsis)
+                        Text(notice.title, overflow: TextOverflow.ellipsis)
                       ],
                     ),
                   ),
