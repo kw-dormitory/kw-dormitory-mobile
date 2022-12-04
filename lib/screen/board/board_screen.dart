@@ -67,7 +67,9 @@ class _BoardScreenState extends State<BoardScreen> {
                       cursorColor: kAccentColor,
                       keyboardType: TextInputType.text,
                       onSubmitted: (value) {
-                        filterWord = value;
+                        setState(() {
+                          filterWord = value;
+                        });
                       },
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.search),
