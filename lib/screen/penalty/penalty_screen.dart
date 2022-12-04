@@ -149,7 +149,7 @@ class _PenaltyScreenState extends State<PenaltyScreen> {
                             center: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("$widget.penalty.totalPenalty",
+                                Text("${widget.penalty.totalPenalty}",
                                     style: TextStyle(
                                         fontSize: 28,
                                         fontWeight: FontWeight.w800)),
