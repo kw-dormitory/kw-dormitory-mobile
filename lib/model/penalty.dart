@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class PenaltyResponse {
   final List<Penalty> penalties;
-  final int totalPenalty;
+  int totalPenalty;
 
   PenaltyResponse({required this.penalties, required this.totalPenalty});
 

@@ -60,6 +60,7 @@ class _PenaltyCounterState extends State<PenaltyCounter> {
                       context,
                       MaterialPageRoute(
                           builder: ((context) => PenaltyScreen(
+                                token: widget.token,
                                 penalty: snapshot.data!,
                               ))));
                 },

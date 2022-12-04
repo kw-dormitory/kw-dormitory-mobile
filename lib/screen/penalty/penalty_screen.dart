@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kw_dormitory/constants.dart';
 import 'package:kw_dormitory/model/penalty.dart';
 import 'package:kw_dormitory/screen/penalty/components/penalty_item.dart';
+import 'package:kw_dormitory/util/dio.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class PenaltyScreen extends StatefulWidget {
-  const PenaltyScreen({Key? key, required this.penalty}) : super(key: key);
+  const PenaltyScreen({Key? key, required this.token, required this.penalty})
+      : super(key: key);
 
+  final String token;
   final PenaltyResponse penalty;
   @override
   State<PenaltyScreen> createState() => _PenaltyScreenState();
@@ -86,8 +90,23 @@ class _PenaltyScreenState extends State<PenaltyScreen> {
                   actions: [
                     ElevatedButton(
                         onPressed: () async {
-                          //TODO: post new penalty
-
+                          var dio = getDio(widget.token);
+                          final response = await dio.post("/penalty", data: {
+                            "content": newDetail,
+                            "date": DateFormat('yyyy-MM-dd')
+                                .format(DateTime.now())
+                                .toString(),
+                            "penalty": newScore
+                          });
+                          widget.penalty.penalties.add(Penalty(
+                              content: newDetail,
+                              date: DateFormat('yyyy-MM-dd')
+                                  .format(DateTime.now())
+                                  .toString(),
+                              id: -1,
+                              penalty: newScore));
+                          widget.penalty.totalPenalty += newScore;
+                          print(response.data);
                           newScore = 1;
                           newDetail = "";
                           Navigator.pop(context);

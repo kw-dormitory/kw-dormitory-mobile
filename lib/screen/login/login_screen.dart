@@ -125,7 +125,7 @@ class LoginScreen extends StatelessWidget {
     final accessToken = response.data;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString("jwt-token", accessToken);
-
+    print(accessToken);
     navigateToHome(context, accessToken);
   }
 
