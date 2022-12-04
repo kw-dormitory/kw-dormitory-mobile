@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:kw_dormitory/constants.dart';
 import 'package:kw_dormitory/model/building.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+final webViewKey = GlobalKey<_WebViewMapContainerState>();
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -70,6 +76,7 @@ class _MapScreenState extends State<MapScreen> {
                         onChanged: (Building? value) {
                           setState(() {
                             selected = value!;
+                            webViewKey.currentState?.reloadWebView();
                           });
                         },
                       ),
@@ -87,18 +94,48 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             SizedBox(height: 16),
-            KakaoMapView(
-              width: size.width - 32,
-              height: size.height - 225,
-              kakaoMapKey: "f2f5a7dba70d2c2462ebea60a1877083",
-              lat: selected.lat,
-              lng: selected.lng,
-              showMapTypeControl: true,
-              showZoomControl: true,
-            )
+            WebViewMapContainer(lat: selected.lat, lng: selected.lng)
           ],
         ),
       ),
     );
+  }
+}
+
+class WebViewMapContainer extends StatefulWidget {
+  const WebViewMapContainer({Key? key, required this.lat, required this.lng})
+      : super(key: key);
+
+  final double lat;
+  final double lng;
+
+  @override
+  State<WebViewMapContainer> createState() => _WebViewMapContainerState();
+}
+
+class _WebViewMapContainerState extends State<WebViewMapContainer> {
+  late WebViewController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return KakaoMapView(
+      width: size.width - 32,
+      height: size.height - 225,
+      kakaoMapKey: "f2f5a7dba70d2c2462ebea60a1877083",
+      lat: widget.lat,
+      lng: widget.lng,
+      showMapTypeControl: true,
+      showZoomControl: true,
+      mapWidgetKey: webViewKey,
+      mapController: (p0) {
+        controller = p0;
+      },
+    );
+  }
+
+  void reloadWebView() {
+    controller.reload();
   }
 }

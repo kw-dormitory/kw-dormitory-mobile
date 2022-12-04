@@ -35,56 +35,81 @@ class _NoticeBoardState extends State<NoticeBoard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return SizedBox(
-      width: size.width - 32,
-      child: Column(
-        children: [
-          //HomeNotiSwitch(),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: ((context) =>
-                          NoticeScreen(token: widget.token))));
-            },
-            child: Container(
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "공지사항",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return FutureBuilder<List<Notice>>(
+        future: notices,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return SizedBox(
+                width: size.width - 32,
+                child: Column(children: [
+                  //HomeNotiSwitch(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) =>
+                                  NoticeScreen(notices: snapshot.data!))));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "공지사항",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          Icon(Icons.chevron_right, color: kGreyColor)
+                        ],
+                      ),
+                    ),
                   ),
-                  Icon(Icons.chevron_right, color: kGreyColor)
-                ],
-              ),
-            ),
-          ),
-          FutureBuilder<List<Notice>>(
-              future: notices,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
+                  Column(
                       children: List.generate(
                           4,
                           (index) => NoticeBoardItem(
                               notice: snapshot.data![index],
-                              isLastItem: index == 3)));
-                } else if (snapshot.hasError) {
-                  print(snapshot.stackTrace);
-                  return Center(
-                    child: Text("데이터를 불러올 수 없습니다"),
-                  );
-                }
-                return Stack(
+                              isLastItem: index == 3)))
+                ]));
+          } else if (snapshot.hasError) {
+            print(snapshot.stackTrace);
+            return Center(
+              child: Text("데이터를 불러올 수 없습니다"),
+            );
+          }
+          return SizedBox(
+            width: size.width - 32,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15))),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "공지사항",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Icon(Icons.chevron_right, color: kGreyColor)
+                    ],
+                  ),
+                ),
+                Stack(
                   children: [
                     Column(
                         children: List.generate(
@@ -99,11 +124,11 @@ class _NoticeBoardState extends State<NoticeBoard> {
                       ),
                     ))
                   ],
-                );
-              })
-        ],
-      ),
-    );
+                )
+              ],
+            ),
+          );
+        });
   }
 }
 

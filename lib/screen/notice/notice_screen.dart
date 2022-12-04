@@ -8,9 +8,9 @@ import 'package:kw_dormitory/screen/notice/components/notice_item.dart';
 import 'package:kw_dormitory/util/dio.dart';
 
 class NoticeScreen extends StatefulWidget {
-  const NoticeScreen({Key? key, required this.token}) : super(key: key);
+  const NoticeScreen({Key? key, required this.notices}) : super(key: key);
 
-  final String token;
+  final List<Notice> notices;
 
   @override
   State<NoticeScreen> createState() => _NoticeScreenState();
@@ -21,21 +21,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   bool enableRecruitNoti = true;
   bool enable24hNoti = true;
 
-  late Future<List<Notice>> notices;
-
   String filterWord = "";
-
-  @override
-  void initState() {
-    super.initState();
-    notices = fetchNotices();
-  }
-
-  Future<List<Notice>> fetchNotices() async {
-    var dio = await getDio(widget.token);
-    final response = await dio.get("/notice/all");
-    return NoticeResponse.fromJson(response.data).notices;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,71 +125,54 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 ))
           ],
         ),
-        body: Column(
-          children: [
-            Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: kBackgroundColor,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: TextField(
-                      cursorColor: kAccentColor,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (value) {
-                        setState(() {
-                          filterWord = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.search),
-                        fillColor: kGreyColor,
-                        focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: kBackgroundColor, width: 1),
-                            borderRadius: BorderRadius.circular(12)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: kBackgroundColor, width: 1),
-                            borderRadius: BorderRadius.circular(12)),
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        hintText: '글 제목 검색',
-                      ),
-                      maxLines: 1,
+        body: Column(children: [
+          Container(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.all(12),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: kBackgroundColor,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: TextField(
+                    cursorColor: kAccentColor,
+                    keyboardType: TextInputType.text,
+                    onSubmitted: (value) {
+                      setState(() {
+                        filterWord = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(Icons.search),
+                      fillColor: kGreyColor,
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: kBackgroundColor, width: 1),
+                          borderRadius: BorderRadius.circular(12)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: kBackgroundColor, width: 1),
+                          borderRadius: BorderRadius.circular(12)),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
+                      hintText: '글 제목 검색',
                     ),
+                    maxLines: 1,
                   ),
-                )),
-            Expanded(
-                child: SingleChildScrollView(
-                    child: FutureBuilder<List<Notice>>(
-                        future: notices,
-                        builder: ((context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Column(
-                                children: List.generate(
-                                    snapshot.data!
-                                        .where((element) =>
-                                            element.title.contains(filterWord))
-                                        .length,
-                                    (index) => NoticeItem(
-                                        notice: snapshot.data!
-                                            .where((e) =>
-                                                e.title.contains(filterWord))
-                                            .elementAt(index))));
-                          } else if (snapshot.hasError) {
-                            return Center(
-                              child: Text("데이터를 불러올 수 없습니다"),
-                            );
-                          }
-                          return SizedBox(
-                              height: size.height - 240,
-                              child:
-                                  Center(child: CircularProgressIndicator()));
-                        }))))
-          ],
-        ));
+                ),
+              )),
+          Expanded(
+              child: SingleChildScrollView(
+                  child: Column(
+                      children: List.generate(
+                          widget.notices
+                              .where((element) =>
+                                  element.title.contains(filterWord))
+                              .length,
+                          (index) => NoticeItem(
+                              notice: widget.notices
+                                  .where((e) => e.title.contains(filterWord))
+                                  .elementAt(index))))))
+        ]));
   }
 }
