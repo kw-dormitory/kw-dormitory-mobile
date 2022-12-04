@@ -39,7 +39,7 @@ class _PostViewScreenState extends State<PostViewScreen> {
                   CircleAvatar(
                     radius: 24,
                     backgroundImage: NetworkImage(
-                        'https://avatars.githubusercontent.com/u/72238126?v=4'),
+                        'https://blog.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg'),
                   ),
                   SizedBox(
                     width: 12,

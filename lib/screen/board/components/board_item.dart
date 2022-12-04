@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
 import 'package:kw_dormitory/model/post.dart';
 
-import '../post_view.screen.dart';
+import '../post_view_screen.dart';
 
 class BoardItem extends StatelessWidget {
   BoardItem({Key? key, required this.post}) : super(key: key);

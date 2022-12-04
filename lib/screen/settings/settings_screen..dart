@@ -46,11 +46,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   CircleAvatar(
                     radius: size.width / 4,
                     backgroundImage: NetworkImage(
-                        'https://avatars.githubusercontent.com/u/72238126?v=4'),
+                        'https://blog.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg'),
                   ),
                   SizedBox(height: 24),
                   Text(
-                    "기숙사생 1",
+                    "윤여준",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
