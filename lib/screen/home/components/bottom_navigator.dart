@@ -104,7 +104,10 @@ class BottomNavigator extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
-                onTap: () async {},
+                onTap: () async {
+                  await launchUrl(
+                      Uri.parse('https://www.kw.ac.kr/ko/life/facility09.jsp'));
+                },
                 child: Padding(
                     padding: EdgeInsets.all(8),
                     child: Column(
