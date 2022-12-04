@@ -130,7 +130,9 @@ class LoginScreen extends StatelessWidget {
   }
 
   void navigateToHome(BuildContext context, String token) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: ((context) => HomeScreen(token: token))));
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: ((context) => HomeScreen(token: token))),
+        (Route<dynamic> route) => false);
   }
 }
