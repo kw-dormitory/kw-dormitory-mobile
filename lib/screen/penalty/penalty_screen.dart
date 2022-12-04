@@ -214,7 +214,8 @@ class _PenaltyScreenState extends State<PenaltyScreen> {
                   children: List.generate(
                       widget.penalty.penalties.length,
                       (index) => PenaltyItem(
-                          penalty: widget.penalty.penalties[index]))),
+                          penalty: widget.penalty.penalties[
+                              widget.penalty.penalties.length - index - 1]))),
             ),
           )
         ],
