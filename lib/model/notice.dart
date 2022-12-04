@@ -29,3 +29,5 @@ class Notice {
         createdAt: json["createdAt"]);
   }
 }
+
+final emptyNotice = Notice(noticeId: -1, title: "", writer: "", createdAt: "");
