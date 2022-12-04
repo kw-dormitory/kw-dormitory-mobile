@@ -19,7 +19,17 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   List<Building> buildings = [
     Building(name: "새빛관", lat: 37.619774, lng: 127.060926),
-    Building(name: "참빛관", lat: 37.619207, lng: 127.061013)
+    Building(name: "참빛관", lat: 37.619774, lng: 127.060926),
+    Building(name: "비마관", lat: 37.619774, lng: 127.060926),
+    Building(name: "화도관", lat: 37.619774, lng: 127.060926),
+    Building(name: "옥의관", lat: 37.619774, lng: 127.060926),
+    Building(name: "복지관", lat: 37.619774, lng: 127.060926),
+    Building(name: "중앙도서관", lat: 37.619774, lng: 127.060926),
+    Building(name: "연구관", lat: 37.619774, lng: 127.060926),
+    Building(name: "한울관", lat: 37.619774, lng: 127.060926),
+    Building(name: "누리관", lat: 37.619207, lng: 127.061013),
+    Building(name: "80주년 기념관", lat: 37.619207, lng: 127.061013),
+    Building(name: "동해문화예술관", lat: 37.619207, lng: 127.061013),
   ];
   Building selected = Building(name: "새빛관", lat: 37.619774, lng: 127.060926);
 
