@@ -25,7 +25,7 @@ class _PenaltyCounterState extends State<PenaltyCounter> {
   }
 
   Future<PenaltyResponse> fetchPenalty() async {
-    var dio = await getDio(widget.token);
+    var dio = getDio(widget.token);
     final response = await dio.get("/penalty");
     print(response.data);
     try {

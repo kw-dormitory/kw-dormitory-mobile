@@ -26,7 +26,7 @@ class _NoticeBoardState extends State<NoticeBoard> {
   }
 
   Future<List<Notice>> fetchNotices() async {
-    var dio = await getDio(widget.token);
+    var dio = getDio(widget.token);
     final response = await dio.get("/notice/all");
     return NoticeResponse.fromJson(response.data).notices;
   }

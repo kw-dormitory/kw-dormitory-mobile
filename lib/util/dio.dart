@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 
-Future<Dio> getDio(String? token) async {
+Dio getDio(String? token) {
   var dio = Dio();
 
   dio.options.baseUrl = "http://10.0.2.2:8888/api/v1";
