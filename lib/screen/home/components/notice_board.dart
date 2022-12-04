@@ -27,8 +27,8 @@ class _NoticeBoardState extends State<NoticeBoard> {
 
   Future<List<Notice>> fetchNotices() async {
     var dio = await getDio(widget.token);
-    final response = await dio.get("/penalty");
-    return NoticeResponse.fromJson(json.decode(response.data)).notices;
+    final response = await dio.get("/notice/all");
+    return NoticeResponse.fromJson(response.data).notices;
   }
 
   @override
@@ -74,18 +74,31 @@ class _NoticeBoardState extends State<NoticeBoard> {
                 if (snapshot.hasData) {
                   return Column(
                       children: List.generate(
-                          snapshot.data!.length,
+                          4,
                           (index) => NoticeBoardItem(
                               notice: snapshot.data![index],
-                              isLastItem: index == snapshot.data!.length - 1)));
+                              isLastItem: index == 3)));
                 } else if (snapshot.hasError) {
                   print(snapshot.stackTrace);
                   return Center(
                     child: Text("데이터를 불러올 수 없습니다"),
                   );
                 }
-                return Center(
-                  child: const CircularProgressIndicator(),
+                return Stack(
+                  children: [
+                    Column(
+                        children: List.generate(
+                            4,
+                            (index) => NoticeBoardItem(
+                                notice: emptyNotice, isLastItem: index == 3))),
+                    Positioned(
+                        child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 92),
+                        child: const CircularProgressIndicator(),
+                      ),
+                    ))
+                  ],
                 );
               })
         ],

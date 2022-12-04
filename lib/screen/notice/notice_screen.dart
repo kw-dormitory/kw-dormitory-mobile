@@ -23,6 +23,8 @@ class _NoticeScreenState extends State<NoticeScreen> {
 
   late Future<List<Notice>> notices;
 
+  String filterWord = "";
+
   @override
   void initState() {
     super.initState();
@@ -31,13 +33,16 @@ class _NoticeScreenState extends State<NoticeScreen> {
 
   Future<List<Notice>> fetchNotices() async {
     var dio = await getDio(widget.token);
-    final response = await dio.get("/penalty");
-    return NoticeResponse.fromJson(json.decode(response.data)).notices;
+    final response = await dio.get("/notice/all");
+    return NoticeResponse.fromJson(response.data).notices;
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             "공지사항",
@@ -134,60 +139,71 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 ))
           ],
         ),
-        body: FutureBuilder<List<Notice>>(
-            future: notices,
-            builder: ((context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  children: [
-                    Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: kBackgroundColor,
-                                borderRadius: BorderRadius.circular(12)),
-                            child: TextField(
-                              cursorColor: kAccentColor,
-                              keyboardType: TextInputType.text,
-                              onChanged: (string) {},
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(Icons.search),
-                                fillColor: kGreyColor,
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: kBackgroundColor, width: 1),
-                                    borderRadius: BorderRadius.circular(12)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: kBackgroundColor, width: 1),
-                                    borderRadius: BorderRadius.circular(12)),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                hintText: '글 제목 검색',
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                        )),
-                    Expanded(
-                        child: SingleChildScrollView(
-                      child: Column(
-                        children: List.generate(
-                          snapshot.data!.length,
-                          (index) => NoticeItem(notice: snapshot.data![index]),
-                        ),
+        body: Column(
+          children: [
+            Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: kBackgroundColor,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: TextField(
+                      cursorColor: kAccentColor,
+                      keyboardType: TextInputType.text,
+                      onSubmitted: (value) {
+                        setState(() {
+                          filterWord = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.search),
+                        fillColor: kGreyColor,
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: kBackgroundColor, width: 1),
+                            borderRadius: BorderRadius.circular(12)),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: kBackgroundColor, width: 1),
+                            borderRadius: BorderRadius.circular(12)),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                        hintText: '글 제목 검색',
                       ),
-                    ))
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text("데이터를 불러올 수 없습니다"),
-                );
-              }
-              return Center(child: CircularProgressIndicator());
-            })));
+                      maxLines: 1,
+                    ),
+                  ),
+                )),
+            Expanded(
+                child: SingleChildScrollView(
+                    child: FutureBuilder<List<Notice>>(
+                        future: notices,
+                        builder: ((context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Column(
+                                children: List.generate(
+                                    snapshot.data!
+                                        .where((element) =>
+                                            element.title.contains(filterWord))
+                                        .length,
+                                    (index) => NoticeItem(
+                                        notice: snapshot.data!
+                                            .where((e) =>
+                                                e.title.contains(filterWord))
+                                            .elementAt(index))));
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text("데이터를 불러올 수 없습니다"),
+                            );
+                          }
+                          return SizedBox(
+                              height: size.height - 240,
+                              child:
+                                  Center(child: CircularProgressIndicator()));
+                        }))))
+          ],
+        ));
   }
 }
