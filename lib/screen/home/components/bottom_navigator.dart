@@ -5,8 +5,9 @@ import 'package:kw_dormitory/screen/settings/settings_screen..dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BottomNavigator extends StatelessWidget {
-  const BottomNavigator({Key? key}) : super(key: key);
+  const BottomNavigator({Key? key, required this.token}) : super(key: key);
 
+  final String token;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,8 +29,12 @@ class BottomNavigator extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => BoardScreen())));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => BoardScreen(
+                                token: token,
+                              ))));
                 },
                 child: Padding(
                     padding: EdgeInsets.all(8),

@@ -24,7 +24,7 @@ class BoardItem extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => PostViewScreen())));
+                          builder: ((context) => PostViewScreen(post: post))));
                 },
                 child: Container(
                   width: size.width,
@@ -41,7 +41,7 @@ class BoardItem extends StatelessWidget {
                           children: [
                             Text(post.title),
                             Text(
-                              post.date,
+                              post.date.substring(0, 10),
                               style: TextStyle(fontSize: 10, color: kGreyColor),
                             )
                           ],

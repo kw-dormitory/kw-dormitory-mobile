@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
+import 'package:kw_dormitory/model/post.dart';
+import 'package:kw_dormitory/util/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PostWriteScreen extends StatefulWidget {
-  const PostWriteScreen({Key? key}) : super(key: key);
+  const PostWriteScreen({Key? key, required this.token, required this.onPost})
+      : super(key: key);
+
+  final String token;
+  final VoidCallback onPost;
 
   @override
   State<PostWriteScreen> createState() => _PostWriteScreenState();
 }
 
 class _PostWriteScreenState extends State<PostWriteScreen> {
+  String title = "";
+  String content = "";
+  String opentalk = "";
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -31,7 +42,19 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
               )),
           actions: [
             IconButton(
-                onPressed: () {}, icon: Icon(Icons.done, color: Colors.white))
+                onPressed: () async {
+                  var dio = getDio(widget.token);
+                  final response = await dio.post('/party/create', data: {
+                    "content": content,
+                    "title": title,
+                    "openTokUrl": opentalk
+                  });
+                  Fluttertoast.showToast(
+                      msg: "게시글이 등록되었습니다", backgroundColor: Colors.black38);
+                  widget.onPost();
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.done, color: Colors.white))
           ],
         ),
         body: Container(
@@ -54,6 +77,9 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
                               fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                         TextField(
+                          onChanged: (value) {
+                            title = value;
+                          },
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           decoration: InputDecoration(
@@ -82,6 +108,9 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
                               fontWeight: FontWeight.bold, fontSize: 18),
                         ),
                         TextField(
+                          onChanged: (value) {
+                            opentalk = value;
+                          },
                           decoration: InputDecoration(
                             hintText: "오픈 카톡 링크를 입력하세요",
                             focusedBorder: UnderlineInputBorder(
@@ -109,6 +138,9 @@ class _PostWriteScreenState extends State<PostWriteScreen> {
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                           TextField(
+                            onChanged: (value) {
+                              content = value;
+                            },
                             decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white)),

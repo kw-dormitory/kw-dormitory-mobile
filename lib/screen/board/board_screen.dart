@@ -2,37 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
 import 'package:kw_dormitory/model/post.dart';
 import 'package:kw_dormitory/screen/board/components/board_item.dart';
+import 'package:kw_dormitory/util/dio.dart';
 
 import 'post_write_screen.dart';
 
 class BoardScreen extends StatefulWidget {
-  const BoardScreen({Key? key}) : super(key: key);
+  const BoardScreen({Key? key, required this.token}) : super(key: key);
+
+  final String token;
 
   @override
   State<BoardScreen> createState() => _BoardScreenState();
 }
 
 class _BoardScreenState extends State<BoardScreen> {
-  List<Post> posts = [
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15"),
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15"),
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15"),
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15"),
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15"),
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15"),
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15"),
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15"),
-    Post(title: "배달 같이 시킬 사람", date: "2022-11-17"),
-    Post(title: "삭자제 공동구매", date: "2022-11-15")
-  ];
+  late Future<List<Post>> posts;
+
+  String filterWord = "";
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      posts = fetchPosts();
+    });
+  }
+
+  Future<List<Post>> fetchPosts() async {
+    var dio = getDio(widget.token);
+    final response = await dio.get("/party");
+    return PostResponse.fromJson(response.data).posts.reversed.toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,9 @@ class _BoardScreenState extends State<BoardScreen> {
                     child: TextField(
                       cursorColor: kAccentColor,
                       keyboardType: TextInputType.text,
-                      onChanged: (string) {},
+                      onSubmitted: (value) {
+                        filterWord = value;
+                      },
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.search),
                         fillColor: kGreyColor,
@@ -87,20 +89,48 @@ class _BoardScreenState extends State<BoardScreen> {
                   ),
                 )),
             Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                children: List.generate(
-                  posts.length,
-                  (index) => BoardItem(post: posts[index]),
-                ),
-              ),
-            ))
+                child: FutureBuilder<List<Post>>(
+                    future: posts,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SingleChildScrollView(
+                          child: Column(
+                            children: List.generate(
+                              snapshot.data!
+                                  .where((element) =>
+                                      element.title.contains(filterWord))
+                                  .length,
+                              (index) => BoardItem(
+                                  post: snapshot.data!
+                                      .where((element) =>
+                                          element.title.contains(filterWord))
+                                      .elementAt(index)),
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        print(snapshot.stackTrace);
+                        return Center(
+                          child: Text("데이터를 불러올 수 없습니다"),
+                        );
+                      }
+                      return const CircularProgressIndicator();
+                    }))
           ],
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: ((context) => PostWriteScreen())));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => PostWriteScreen(
+                            token: widget.token,
+                            onPost: () {
+                              setState(() {
+                                posts = fetchPosts();
+                              });
+                            },
+                          ))));
             },
             child: Icon(
               Icons.edit,

@@ -53,7 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       NoticeBoard(
                         token: widget.token,
                       ),
-                      BottomNavigator()
+                      BottomNavigator(
+                        token: widget.token,
+                      )
                     ],
                   ),
                 ),

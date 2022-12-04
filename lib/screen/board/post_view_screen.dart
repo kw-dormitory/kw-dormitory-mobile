@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kw_dormitory/constants.dart';
+import 'package:kw_dormitory/model/post.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostViewScreen extends StatefulWidget {
-  const PostViewScreen({Key? key}) : super(key: key);
+  const PostViewScreen({Key? key, required this.post}) : super(key: key);
+
+  final Post post;
 
   @override
   State<PostViewScreen> createState() => _PostViewScreenState();
@@ -54,7 +58,7 @@ class _PostViewScreenState extends State<PostViewScreen> {
                         height: 4,
                       ),
                       Text(
-                        "2022-11-17 04:02",
+                        widget.post.date.substring(0, 10),
                         style: TextStyle(fontSize: 10, color: kGreyColor),
                       )
                     ],
@@ -65,17 +69,19 @@ class _PostViewScreenState extends State<PostViewScreen> {
                 height: 16,
               ),
               Text(
-                "배달 같이 시켜먹을 사람?",
+                widget.post.title,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 12),
-              Text("떡볶이나 치킨 중에서 땡기는데 떡볶이 치킨 각각 시켜서 반반 나눌 사람 구합니다.")
+              Text(widget.post.content)
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          await launchUrl(Uri.parse(widget.post.opentalk));
+        },
         child: Image.asset(
           'asset/images/kakao.png',
           color: Colors.white,
