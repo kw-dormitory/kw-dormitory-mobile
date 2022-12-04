@@ -29,12 +29,12 @@ class _PenaltyCounterState extends State<PenaltyCounter> {
     final response = await dio.get("/penalty");
     print(response.data);
     try {
-      final penalty = PenaltyResponse.fromJson(json.decode(response.data));
+      final penalty = PenaltyResponse.fromJson(response.data);
     } catch (e) {
       print(e);
     }
 
-    return PenaltyResponse.fromJson(json.decode(response.data));
+    return PenaltyResponse.fromJson(response.data);
   }
 
   @override
@@ -54,7 +54,7 @@ class _PenaltyCounterState extends State<PenaltyCounter> {
           future: penalty,
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
-              InkWell(
+              return InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -96,7 +96,7 @@ class _PenaltyCounterState extends State<PenaltyCounter> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("현재 벌점은 "),
-                          Text("$snapshot.data!.totalPenalty",
+                          Text("${snapshot.data!.totalPenalty}",
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold)),
                           Text(" 점 입니다.")

@@ -1,14 +1,18 @@
+import 'dart:convert';
+
+import 'dart:convert';
+
 class PenaltyResponse {
   final List<Penalty> penalties;
   final int totalPenalty;
 
   PenaltyResponse({required this.penalties, required this.totalPenalty});
 
-  factory PenaltyResponse.fromJson(Map<String, dynamic> json) {
-    final list = json['penaltyItemList'] as List;
+  factory PenaltyResponse.fromJson(Map<String, dynamic> jsonData) {
+    final list = jsonData['penaltyItemList'] as List;
     List<Penalty> penalties = list.map((e) => Penalty.fromJson(e)).toList();
     return PenaltyResponse(
-        penalties: penalties, totalPenalty: json['totalPenalty']);
+        penalties: penalties, totalPenalty: jsonData['totalPenalty']);
   }
 }
 
