@@ -22,7 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
     var fcmToken = await fcmSetting();
 
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove('jwt-token');
     final jwtToken = prefs.getString('jwt-token');
 
     await Future.delayed(const Duration(milliseconds: 1500));
